@@ -15,7 +15,7 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final AircraftService aircraftService = new AircraftService();
     private static final ManufacturerService manufacturerService = new ManufacturerService();
-    private static final FileService fileService = new FileService();
+    private static final FileService fileService = new FileService(aircraftService);
 
     public static void main(String[] args) {
         while (true) {
@@ -49,7 +49,14 @@ public class Main {
                         System.out.println("Такий літак вже існує");
                     }
                 }
-                case 2 ->{aircraftService.getAll().forEach(System.out::println);}
+                case 2 -> {
+                    List<Aircraft> aircrafts = aircraftService.getAll();
+                    if (aircrafts == null || aircrafts.isEmpty()) {
+                        System.out.println("Список літаків порожній.");
+                    } else {
+                        aircrafts.forEach(System.out::println);
+                    }
+                }
                 case 3 -> {
                     System.out.print("Модель літака для видалення: ");
                     String model = scanner.nextLine();
@@ -73,7 +80,14 @@ public class Main {
                         System.out.println("Виробника додано.");
                     }
                 }
-                case 6 -> manufacturerService.getAll().forEach(System.out::println);
+                case 6 -> {
+                    List<Manufacturer> manufacturers = manufacturerService.getAll();
+                    if (manufacturers == null || manufacturers.isEmpty()) {
+                        System.out.println("Список виробників порожній.");
+                    } else {
+                        manufacturers.forEach(System.out::println);
+                    }
+                }
                 case 7 -> {
                     System.out.print("Модель літака для польоту: ");
                     String model = scanner.nextLine();

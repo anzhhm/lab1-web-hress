@@ -17,6 +17,7 @@ public class Aircraft {
         this.currentFuel = fuelCapacity;
         this.kilometersFlown = 0;
     }
+    public Aircraft() {}
 
     public void fly(int kilometers) {
         double fuelNeeded = kilometers * 0.1;

@@ -13,6 +13,9 @@ public class AircraftService {
     public void addAircraft(Aircraft aircraft) {
         aircraftList.add(aircraft);
     }
+    public void addAircrafts(List<Aircraft> newAircrafts) {
+        aircraftList.addAll(newAircrafts);
+    }
 
     public Aircraft findByModel(String model) {
         return aircraftList.stream()
@@ -43,4 +46,5 @@ public class AircraftService {
     public List<Aircraft> getAll() {
         return aircraftList;
     }
+
 }
