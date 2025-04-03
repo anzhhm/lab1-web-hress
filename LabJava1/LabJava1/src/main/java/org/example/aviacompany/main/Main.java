@@ -2,11 +2,12 @@ package org.example.aviacompany.main;
 
 import org.example.aviacompany.model.Aircraft;
 import org.example.aviacompany.model.Manufacturer;
+import org.example.aviacompany.service.FileService;
 import org.example.aviacompany.service.AircraftService;
 import org.example.aviacompany.service.AirlineService;
 import org.example.aviacompany.service.FileService;
 import org.example.aviacompany.service.ManufacturerService;
-
+import java.util.Comparator;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final AircraftService aircraftService = new AircraftService();
     private static final ManufacturerService manufacturerService = new ManufacturerService();
-    private static final FileService fileService = new FileService(aircraftService);
+    private static final FileService fileService = new FileService();
 
     public static void main(String[] args) {
         while (true) {
@@ -140,20 +141,13 @@ public class Main {
                     }
                 }
                 case 10 -> {
-                    System.out.print("Введіть шлях до файлу JSON для експорту: ");
-                    String filePath = scanner.nextLine();
-                    try {
-                        fileService.exportAircraftToJson(aircraftService.getAll(), filePath);
-                        System.out.println("Дані експортовані успішно!");
-                    } catch (IOException e) {
-                        System.out.println("Помилка експорту: " + e.getMessage());
-                    }
+                    exportAircrafts();
                 }
                 case 11 -> {
                     System.out.print("Введіть шлях до файлу JSON для імпорту: ");
                     String filePath = scanner.nextLine();
                     try {
-                        fileService.importAircraftFromJson(filePath).forEach(aircraftService::addAircraft);
+                        fileService.importAircraftData(filePath).forEach(aircraftService::addAircraft);
                         System.out.println("Дані імпортовані успішно!");
                     } catch (IOException e) {
                         System.out.println("Помилка імпорту: " + e.getMessage());
@@ -194,4 +188,35 @@ public class Main {
 
         return new Aircraft(model, manufacturer, fuelCapacity);
     }
+    private static void exportAircrafts() {
+        List<Aircraft> aircraftList = aircraftService.getAll();
+        if (aircraftList.isEmpty()) {
+            System.out.println("Список літаків порожній, експорт неможливий.");
+            return;
+        }
+
+        System.out.println("Оберіть критерій сортування:");
+        System.out.println("1. За назвою");
+        System.out.println("2. Без сортування");
+        System.out.print("Ваш вибір: ");
+
+        int sortChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        int sortOption = switch (sortChoice) {
+            case 1 ->FileService.SORT_BY_MODEL;
+            default -> FileService.NO_SORT;
+        };
+
+        System.out.print("Введіть шлях до файлу для збереження (наприклад, aircrafts.json): ");
+        String filePath = scanner.nextLine();
+
+        try {
+            fileService.exportAircraftData(aircraftList, filePath, sortOption);
+            System.out.println("Дані успішно експортовано у " + filePath);
+        } catch (IOException e) {
+            System.out.println("Помилка експорту: " + e.getMessage());
+        }
+    }
 }
+

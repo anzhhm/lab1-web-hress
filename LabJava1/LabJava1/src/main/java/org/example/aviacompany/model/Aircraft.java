@@ -1,7 +1,10 @@
 package org.example.aviacompany.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Aircraft {
     private String model;
     private Manufacturer manufacturer;
@@ -71,5 +74,15 @@ public class Aircraft {
         return  "Model='" + model + "', Manufacturer=" + manufacturer.getName() +
                 ", Fuel=" + currentFuel + "/" + fuelCapacity +
                 ", KilometersFlown=" + kilometersFlown ;
+    }
+
+    public int getKilometersFlown() {
+        return this.kilometersFlown;
+    }
+    public double getFuelCapacity(){
+        return this.fuelCapacity;
+    }
+    public double getCurrentFuel(){
+        return this.currentFuel;
     }
 }
