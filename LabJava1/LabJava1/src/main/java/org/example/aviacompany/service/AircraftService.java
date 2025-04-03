@@ -1,7 +1,6 @@
 package org.example.aviacompany.service;
 
 import org.example.aviacompany.model.Aircraft;
-import org.example.aviacompany.model.Manufacturer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +33,6 @@ public class AircraftService {
         aircraft.setModel(newModel);
     }
 
-    public void updateAircraftManufacturer(String model, Manufacturer newManufacturer) {
-        Aircraft aircraft = findByModel(model);
-        aircraft.setManufacturer(newManufacturer);
-    }
-
     public void removeAircraft(String model) {
         aircraftList.removeIf(a -> a.getModel().equalsIgnoreCase(model));
     }
@@ -46,5 +40,4 @@ public class AircraftService {
     public List<Aircraft> getAll() {
         return aircraftList;
     }
-
 }

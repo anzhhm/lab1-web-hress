@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 public class AircraftServiceTest {
     private AircraftService service;
     private Manufacturer manufacturer;

@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import org.example.aviacompany.service.AircraftService;
-
 public class FileService {
     // Sorting options
     public static final int NO_SORT = 2;
@@ -52,7 +50,6 @@ public class FileService {
             exportData.add(aircraftMap);
         }
 
-        // Write data to JSON file
         objectMapper.writeValue(new File(filePath), exportData);
     }
 
@@ -74,5 +71,4 @@ public class FileService {
 
         return importedAircraft;
     }
-
 }

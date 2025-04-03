@@ -20,7 +20,6 @@ public class Manufacturer {
     }
 
     public String getName() { return name; }
-    public String getCountry() { return country; }
 
     @Override
     public boolean equals(Object o) {

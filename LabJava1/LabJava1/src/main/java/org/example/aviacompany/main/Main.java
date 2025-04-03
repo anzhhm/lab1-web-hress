@@ -4,10 +4,7 @@ import org.example.aviacompany.model.Aircraft;
 import org.example.aviacompany.model.Manufacturer;
 import org.example.aviacompany.service.FileService;
 import org.example.aviacompany.service.AircraftService;
-import org.example.aviacompany.service.AirlineService;
-import org.example.aviacompany.service.FileService;
 import org.example.aviacompany.service.ManufacturerService;
-import java.util.Comparator;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -30,9 +27,9 @@ public class Main {
             System.out.println("9. Заправити літак повністю");
             System.out.println("10. Експорт літаків у JSON");
             System.out.println("11. Імпорт літаків з JSON");
+            System.out.println("12. Оновити модель літака");
             System.out.println("0. Вихід");
-            System.out.print("Виберіть опцію: ");;
-
+            System.out.print("Виберіть опцію: ");
             if (!scanner.hasNextInt()) {
                 System.out.println("Помилка: введіть число.");
                 scanner.next();
@@ -153,7 +150,19 @@ public class Main {
                         System.out.println("Помилка імпорту: " + e.getMessage());
                     }
                 }
-                case 0 -> {
+                case 12 -> {
+                    System.out.print("Введіть поточну модель літака: ");
+                    String oldModel = scanner.nextLine();
+                    if (aircraftService.existsByModel(oldModel)) {
+                        System.out.print("Введіть нову модель літака: ");
+                        String newModel = scanner.nextLine();
+                        aircraftService.updateAircraftModel(oldModel, newModel);
+                        System.out.println("Модель літака оновлено.");
+                    } else {
+                        System.out.println("Літак з такою моделлю не знайдено.");
+                    }
+
+                }      case 0 -> {
                     scanner.close();
                     System.exit(0);
                 }
