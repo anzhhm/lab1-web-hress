@@ -12,8 +12,8 @@ import org.example.aviacompany.service.AircraftService;
 
 public class FileService {
     // Sorting options
-    public static final int NO_SORT = 1;
-    public static final int SORT_BY_MODEL = 2;
+    public static final int NO_SORT = 2;
+    public static final int SORT_BY_MODEL = 1;
 
     private final ObjectMapper objectMapper;
     private final AircraftService aircraftService = new AircraftService();
@@ -42,7 +42,7 @@ public class FileService {
         }
 
         List<Map<String, Object>> exportData = new ArrayList<>();
-        for (Aircraft aircraft : aircraftList) {
+        for (Aircraft aircraft : sortedList) {
             Map<String, Object> aircraftMap = new HashMap<>();
             aircraftMap.put("model", aircraft.getModel());
             aircraftMap.put("manufacturer", aircraft.getManufacturer());

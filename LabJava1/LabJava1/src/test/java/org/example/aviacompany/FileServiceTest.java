@@ -1,5 +1,6 @@
 package org.example.aviacompany;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.aviacompany.model.Aircraft;
 import org.example.aviacompany.service.FileService;
 import org.junit.jupiter.api.*;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,9 +46,17 @@ class FileServiceTest {
     @Test
     void testExportAircraftDataSortedByModel() throws IOException {
         fileService.exportAircraftData(testAircraftList, testFilePath, FileService.SORT_BY_MODEL);
-        List<String> content = Files.readAllLines(Paths.get(testFilePath));
-        assertTrue(content.get(1).contains("A320"));
-        assertTrue(content.get(2).contains("B737"));
+
+        // Read and parse the JSON file
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> aircraftList = mapper.readValue(
+                new File(testFilePath),
+                mapper.getTypeFactory().constructCollectionType(List.class, Map.class)
+        );
+
+        // Verify the order of models
+        assertEquals("A320", aircraftList.get(0).get("model"));
+        assertEquals("B737", aircraftList.get(1).get("model"));
     }
 
 
